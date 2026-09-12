@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -23,6 +23,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Materialize original XLSX in repository
+        if: ${{ hashFiles('Base_Recuperacao_Infra_Salobo_Atualizada.xlsx') == '' }}
+        env:
+          XLSX_URL: https://1drv.ms/x/c/af3c23aea36ea279/IQAHF_7YOW6iTqILOdj6b6sDAR688ak4X263TrJBrL7ha_k?download=1
+        run: |
+          curl -L --fail --retry 3 --retry-delay 2 "$XLSX_URL" -o Base_Recuperacao_Infra_Salobo_Atualizada.xlsx
+          echo "947520a51a8aac9e03bfd5081d15150910c1a723df13235f0b0a449ff1e04b6a  Base_Recuperacao_Infra_Salobo_Atualizada.xlsx" | sha256sum -c -
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Base_Recuperacao_Infra_Salobo_Atualizada.xlsx
+          git commit -m "Add original XLSX release"
+          git push origin HEAD:main
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
