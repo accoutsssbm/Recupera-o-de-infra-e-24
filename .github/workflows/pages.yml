@@ -23,6 +23,78 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Materialize full dashboard HTML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64, gzip
+
+          chunks = [
+              Path('parts/index-gz-001.b64').read_text(encoding='utf-8').strip(),
+              Path('parts/index-gz-002.b64').read_text(encoding='utf-8').strip(),
+          ]
+
+          def inflate(items):
+              return gzip.decompress(base64.b64decode(''.join(items))).decode('utf-8')
+
+          try:
+              html = inflate(chunks)
+          except Exception:
+              legacy = chunks[:]
+              legacy[0] = 'H4sIAAAAAAAC' + legacy[0][12:-1] + 'I'
+              legacy[1] = legacy[1][1:]
+              html = inflate(legacy)
+
+          html = html.replace('href="Base_Recuperacao_Infra_Salobo_Atualizada.xlsx" download', 'href="24/base-download.html"')
+          html = html.replace('href="OnePage_Gerencial_Freios_24_24M.html" target="_blank" rel="noopener noreferrer">Freios 24/24M ↗</a>', 'href="24/onepage-template.html" target="_blank" rel="noopener noreferrer">Template OnePage ↗</a>')
+
+          if 'Gerar OnePage atual' not in html:
+              marker = '<a href="24/onepage-template.html" target="_blank" rel="noopener noreferrer">Template OnePage ↗</a>'
+              if marker in html:
+                  html = html.replace(marker, '<button onclick="generateOnePage()">Gerar OnePage atual</button>\n' + marker)
+              else:
+                  html = html.replace('</nav>', '<button onclick="generateOnePage()">Gerar OnePage atual</button></nav>', 1)
+
+          extra = r'''
+          <script>
+          (function(){
+            const STATE_KEYS=['salobo-infra-recuperacao-v6','salobo-infra-recuperacao-v4','salobo-projeto-v3','salobo-projeto-v2'];
+            function esc(v){return String(v??'').replace(/[&<>\"]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]||s));}
+            function readState(){for(const k of STATE_KEYS){try{const raw=localStorage.getItem(k);if(raw)return JSON.parse(raw);}catch(e){}}return {done:{},sub:{}};}
+            window.generateOnePage=function(){
+              const data=window.PROJETO_DATA||{};
+              const st=readState();
+              const checks=[...document.querySelectorAll('input[type=checkbox]')];
+              const checked=checks.filter(c=>c.checked).length;
+              const total=checks.length;
+              const pct=total?Math.round(checked/total*100):0;
+              const actions=data.actions||[];
+              const subs=data.subactions||[];
+              const pending=actions.filter(a=>!(st.done||{})[a.id]).slice(0,35);
+              const closed=actions.length-pending.length;
+              const pendRows=pending.map(a=>`<tr><td>${esc(a.equipment||a.frente||'MACRO')}</td><td>${esc(a.title||a.action||a.id)}</td><td>${esc(a.owner||'')}</td><td>${esc(a.deadline||'')}</td></tr>`).join('') || '<tr><td colspan="4">Sem pendências listadas.</td></tr>';
+              const bl=data.bl_summary||{};
+              const blRows=Object.entries(bl).map(([tag,v])=>`<tr><td>${esc(tag)}</td><td>${esc(v.standard??'')}</td><td>${esc(v.brake??'')}</td><td>${esc(v.status??'')}</td></tr>`).join('') || '<tr><td colspan="4">Sem dados BL.</td></tr>';
+              const now=new Date().toLocaleString('pt-BR');
+              const out=`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OnePage atual - Recuperação Infra Salobo</title><style>body{margin:0;background:#171717;color:#fff;font-family:Arial,sans-serif}header,main{max-width:1100px;margin:auto;padding:24px}.bar{height:6px;background:#ffcd11;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.card,.panel{background:#222;border:1px solid #333;border-radius:12px;padding:16px;margin:12px 0}.kpi{font-size:42px;font-weight:900;color:#ffcd11}table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #333;padding:8px;text-align:left}button{background:#ffcd11;border:0;border-radius:8px;padding:10px 14px;font-weight:900}@media print{button{display:none}}</style></head><body><header><h1>OnePage atual — Recuperação da Infraestrutura Salobo</h1><div class="bar"></div><p>Gerado em ${esc(now)}. Fonte: estado atual dos checkboxes no painel publicado.</p><button onclick="window.print()">Salvar em PDF</button> <button onclick="downloadHtml()">Baixar HTML</button></header><main><section class="grid"><div class="card"><b>Avanço visual</b><div class="kpi">${pct}%</div><span>${checked}/${total} itens marcados</span></div><div class="card"><b>Ações cadastradas</b><div class="kpi">${actions.length}</div></div><div class="card"><b>Subações</b><div class="kpi">${subs.length}</div></div><div class="card"><b>Ações fechadas</b><div class="kpi">${closed}</div></div></section><section class="panel"><h2>Base oficial</h2><p>A base editável fica na pasta <b>24</b>. Itens que não podem ser marcados no HTML devem ser atualizados na base e republicados.</p></section><section class="panel"><h2>Pendências principais</h2><table><thead><tr><th>Frente/TAG</th><th>Ação</th><th>Dono</th><th>Prazo</th></tr></thead><tbody>${pendRows}</tbody></table></section><section class="panel"><h2>Resumo BL por TAG</h2><table><thead><tr><th>TAG</th><th>BL projeto</th><th>BL freio</th><th>Status</th></tr></thead><tbody>${blRows}</tbody></table></section></main><script>function downloadHtml(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([document.documentElement.outerHTML],{type:'text/html;charset=utf-8'}));a.download='OnePage_Atual_Recuperacao_Infra_Salobo.html';a.click();}<\/script></body></html>`;
+              const w=window.open('','_blank','noopener,noreferrer');
+              if(!w){alert('Permita pop-ups para gerar o OnePage.');return;}
+              w.document.open();w.document.write(out);w.document.close();
+            };
+          })();
+          </script>
+          '''
+
+          if 'window.generateOnePage' not in html:
+              html = html.replace('</body>', extra + '</body>')
+
+          Path('index.html').write_text(html, encoding='utf-8')
+          print('materialized_bytes', len(html.encode('utf-8')))
+          print('has_project_data', 'window.PROJETO_DATA' in html)
+          print('has_onepage_button', 'Gerar OnePage atual' in html)
+          PY
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
