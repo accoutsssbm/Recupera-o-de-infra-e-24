@@ -1,14 +1,17 @@
-# Recuperação da Infraestrutura — Salobo
+# Publicação candidata — Recuperação Infra Salobo
 
-Release público do painel de acompanhamento do projeto de recuperação de infraestrutura de Salobo.
+Esta pasta foi montada a partir dos arquivos oficiais em `D:\TRABALHO\Recuperação de infra salobo`.
 
-## Conteúdo
-- `index.html` — painel principal validado.
-- `OnePage_Gerencial_Freios_24_24M.html` — visão gerencial dos freios das motoniveladoras 24/24M.
-- `Base_Recuperacao_Infra_Salobo_Atualizada.xlsx` — base técnica do release.
-- `TEST_REPORT.md` — falhas encontradas, correções e testes.
-- `TEST_RESULTS.json` — resultados estruturados da validação.
-- `.github/workflows/pages.yml` — publicação automática no GitHub Pages.
+- `index.html`: carregador estático do dashboard comprimido.
+- `dashboard-source.html`: fonte HTML completa mantida na pasta candidata local; o repositório publica o carregador em `index.html`, que a recompõe integralmente.
+- `24\Base_Recuperacao_Infra_Salobo_TECNICA_V6.xlsx`: base oficial editável mantida localmente no D:.
+- `24\Base_Recuperacao_Infra_Salobo_TECNICA_V6.xlsx.b64`: representação publicada para reconstrução fiel do XLSX no download.
+- `24\onepage-template.html`: modelo padrão, mantido somente como template.
+- `24\Visao_Gerencial_Freios_24_24M_V6.html`: visão gerencial de freios.
+- `24\freios-parts\freios-gz-*.b64`: partes comprimidas da visão de freios para hospedagem estática.
+- `parts\index-gz-*.b64`: partes do HTML comprimido para hospedagem estática.
+- `icone_frotas_anexo.jpeg`: ativo usado pelo dashboard.
 
-## Publicação
-O workflow publica automaticamente a raiz do repositório no GitHub Pages a cada atualização da branch `main`.
+O botão **Gerar OnePage atual** cria uma página-snapshot com o estado atual dos checkboxes, pendências e resumo BL. Itens não marcáveis no HTML permanecem na base XLSX da pasta `24`.
+
+Fonte do dashboard: `24\Hotsheet_Recuperacao_Infra_Salobo_TECNICO_V6.html`.
