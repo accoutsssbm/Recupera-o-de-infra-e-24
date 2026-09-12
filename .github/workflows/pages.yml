@@ -27,7 +27,7 @@ jobs:
       - name: Materialize original XLSX in repository
         if: ${{ hashFiles('Base_Recuperacao_Infra_Salobo_Atualizada.xlsx') == '' }}
         env:
-          XLSX_URL: https://1drv.ms/x/c/af3c23aea36ea279/IQAHF_7YOW6iTqILOdj6b6sDAR688ak4X263TrJBrL7ha_k?download=1
+          XLSX_URL: https://api.onedrive.com/v1.0/shares/u!aHR0cHM6Ly8xZHJ2Lm1zL3gvYy9hZjNjMjNhZWEzNmVhMjc5L0lRQUhGXzdZT1c2aVRxSUxPZGo2YjZzREFSNjg4YWs0WDI2M1RySkJyTDdoYV9r/root/content
         run: |
           curl -L --fail --retry 3 --retry-delay 2 "$XLSX_URL" -o Base_Recuperacao_Infra_Salobo_Atualizada.xlsx
           echo "947520a51a8aac9e03bfd5081d15150910c1a723df13235f0b0a449ff1e04b6a  Base_Recuperacao_Infra_Salobo_Atualizada.xlsx" | sha256sum -c -
