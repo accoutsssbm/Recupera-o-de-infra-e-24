@@ -1,6 +1,6 @@
 {
-  "name": "Visão Gerencial — Freios 24/24M",
-  "short_name": "Freios Salobo",
+  "name": "Gestão 24",
+  "short_name": "Gestão 24",
   "description": "Painel gerencial de recuperação dos conjuntos de freio das motoniveladoras de Salobo.",
   "id": "./Visao_Gerencial_Freios_24_24M_V6.html",
   "start_url": "./Visao_Gerencial_Freios_24_24M_V6.html",
@@ -9,8 +9,7 @@
   "background_color": "#171717",
   "theme_color": "#171717",
   "icons": [
-    {"src": "icon.svg?v=24", "sizes": "any", "type": "image/svg+xml", "purpose": "any"},
-    {"src": "icon.svg?v=24", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable"}
+    {"src": "icon.svg?v=25", "sizes": "any", "type": "image/svg+xml", "purpose": "any"},
+    {"src": "icon.svg?v=25", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable"}
   ]
 }
-
