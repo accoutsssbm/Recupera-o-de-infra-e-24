@@ -16,5 +16,12 @@
  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
  const html=await new Response(stream).text();
  document.open();document.write(html);document.close();
+ const nav=document.querySelector('#home .nav');
+ if(nav&&!document.getElementById('project-access')){
+   const a=document.createElement('a');
+   a.id='project-access';a.href='./';a.textContent='Projeto de Recuperação de Infra';
+   a.style.cssText='display:inline-flex;align-items:center;background:#ffcd11;color:#171717;font-weight:800;text-decoration:none';
+   nav.prepend(a);
+ }
 })().catch(e=>{document.getElementById('status').textContent='Não foi possível carregar o painel.';document.getElementById('err').textContent=e.message;});
 </script></body></html>
