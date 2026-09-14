@@ -1,8 +1,8 @@
-const CACHE_NAME='freios-salobo-v3';
+const CACHE_NAME='gestao-24-v4';
 const ASSETS=[
   './Visao_Gerencial_Freios_24_24M_V6.html',
-  './manifest.webmanifest?v=24',
-  './icon.svg?v=24',
+  './manifest.webmanifest?v=25',
+  './icon.svg?v=25',
   './freios-parts/freios-gz-001.b64',
   './freios-parts/freios-gz-002.b64',
   './freios-parts/freios-gz-003.b64',
@@ -21,4 +21,3 @@ self.addEventListener('fetch',event=>{
     return response;
   }).catch(()=>caches.match(event.request).then(cached=>cached||caches.match('./Visao_Gerencial_Freios_24_24M_V6.html'))));
 });
-
