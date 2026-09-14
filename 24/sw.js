@@ -1,8 +1,8 @@
-const CACHE_NAME='freios-salobo-v2';
+const CACHE_NAME='freios-salobo-v3';
 const ASSETS=[
   './Visao_Gerencial_Freios_24_24M_V6.html',
-  './manifest.webmanifest',
-  './icon.svg',
+  './manifest.webmanifest?v=24',
+  './icon.svg?v=24',
   './freios-parts/freios-gz-001.b64',
   './freios-parts/freios-gz-002.b64',
   './freios-parts/freios-gz-003.b64',

@@ -3,11 +3,11 @@
   "short_name": "Ações Salobo",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f7f6f2",
+  "background_color": "#171717",
   "theme_color": "#171717",
   "icons": [
     {
-      "src": "icon.svg",
+      "src": "icon.svg?v=24",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
