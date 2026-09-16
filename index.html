@@ -16,7 +16,16 @@
  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
  const html=await new Response(stream).text();
  document.open();document.write(html);document.close();
- const live=document.createElement('script');live.src='live-v7.js?v=20260916c';live.defer=false;document.body.appendChild(live);
+ const live=document.createElement('script');
+ live.src='live-v7.js?v=20260916d';
+ live.async=false;
+ live.onload=()=>{
+   const axis=document.createElement('script');
+   axis.src='axis-bottom-v8.js?v=20260916a';
+   axis.async=false;
+   document.body.appendChild(axis);
+ };
+ document.body.appendChild(live);
  const nav=document.querySelector('#home .nav');
  if(nav&&!document.getElementById('project-access')){
    const a=document.createElement('a');
