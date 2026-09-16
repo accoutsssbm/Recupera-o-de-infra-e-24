@@ -5,7 +5,7 @@
 <title>Recuperação da Infraestrutura — Salobo</title>
 <style>html,body{margin:0;min-height:100%;background:#171717;color:#fff;font-family:Arial,sans-serif}.box{max-width:760px;margin:12vh auto;padding:32px}.bar{height:6px;background:#ffcd11;margin:18px 0}.err{color:#ffb4ab;white-space:pre-wrap}.muted{color:#bdbdbd}</style>
 </head>
-<body><div class="box"><h1>Recuperação da Infraestrutura — Salobo</h1><div class="bar"></div><p id="status">Carregando painel publicado…</p><p class="muted">Dashboard fonte-backed, base oficial na pasta 24 e geração de OnePage atual.</p><div id="err" class="err"></div></div>
+<body><div class="box"><h1>Recuperação da Infraestrutura — Salobo</h1><div class="bar"></div><p id="status">Carregando painel publicado…</p><p class="muted">Dashboard integrado à programação das frotas e às baixas dos apps.</p><div id="err" class="err"></div></div>
 <script>
 (async()=>{
  const files=['parts/index-gz-001.b64','parts/index-gz-002.b64','parts/index-gz-003.b64'];
@@ -16,6 +16,7 @@
  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
  const html=await new Response(stream).text();
  document.open();document.write(html);document.close();
+ const live=document.createElement('script');live.src='live-v7.js?v=20260916c';live.defer=false;document.body.appendChild(live);
  const nav=document.querySelector('#home .nav');
  if(nav&&!document.getElementById('project-access')){
    const a=document.createElement('a');
