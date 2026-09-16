@@ -4,8 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#171717">
+<meta name="description" content="Dashboard gerencial do projeto de recuperação da infraestrutura de Salobo.">
+<link rel="manifest" href="manifest.webmanifest?v=1">
+<link rel="apple-touch-icon" href="../cliente/icon.svg">
 <title>Hotsheet | Recuperação da Frota — Salobo</title>
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head><body>
 <section id="home" class="screen tv active">
 <header class="top"><div><div class="brand">SOTREQ</div><div class="eye">ENGENHARIA | RECUPERAÇÃO DE FROTA</div><h1>Hotsheet do Projeto — Infraestrutura Salobo</h1>
@@ -24,5 +27,12 @@
 <section class="groups" id="groups"></section></main>
 <div class="footnote">Execução atualizada automaticamente conforme as baixas registradas nos apps da equipe.</div></section>
 <div id="details"></div>
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
+<script>
+if('serviceWorker' in navigator){
+  let reloading=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloading)return;reloading=true;location.reload()});
+  window.addEventListener('load',async()=>{try{const reg=await navigator.serviceWorker.register('sw.js',{updateViaCache:'none'});await reg.update()}catch(e){console.warn('Atualização automática indisponível',e)}});
+}
+</script>
 </body></html>
