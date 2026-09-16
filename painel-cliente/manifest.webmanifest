@@ -1,0 +1,14 @@
+{
+  "name": "Hotsheet Recuperação Infra — Salobo",
+  "short_name": "Hotsheet Salobo",
+  "description": "Dashboard gerencial do projeto de recuperação da infraestrutura de Salobo.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#171717",
+  "theme_color": "#171717",
+  "icons": [
+    {"src": "../cliente/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+  ]
+}
