@@ -5,24 +5,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#171717">
 <title>Hotsheet | Recuperação da Frota — Salobo</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=7">
 </head><body>
 <section id="home" class="screen tv active">
 <header class="top"><div><div class="brand">SOTREQ</div><div class="eye">ENGENHARIA | RECUPERAÇÃO DE FROTA</div><h1>Hotsheet do Projeto — Infraestrutura Salobo</h1>
-<div class="meta"><span id="syncDot" class="syncdot"></span><span id="syncText">Carregando execução...</span> · base técnica 11/09/2026</div></div>
-<nav class="nav"><button class="on" onclick="show('home')">Visão geral</button><button onclick="show('Macro')">Macro</button><button onclick="show('Ligriarno')">Ligriarno</button><button onclick="show('Leonardo')">Leonardo</button><button onclick="show('Kleber')">Kleber</button></nav></header>
+<div class="meta"><span id="syncDot" class="syncdot"></span><span id="syncText">Carregando execução...</span> · programação atualizada em 16/09/2026</div></div>
+<nav class="nav"><button class="on" onclick="show('home')">Visão geral</button><button onclick="show('Macro')">Macro</button><button onclick="show('Ligriarno')">Ligriarno / Ralde</button><button onclick="show('Leonardo')">Leonardo</button><button onclick="show('Kleber')">Kleber</button></nav></header>
 <main class="dash"><section class="kpis">
 <article class="kpi"><span>MTBF frota</span><b>28,0 <i class="green">→ 40,6 h</i></b><small>cenário-base do projeto</small></article>
 <article class="kpi"><span>Paradas</span><b>469 <i class="green">→ 347</i></b><small>−122 corretivas projetadas</small></article>
 <article class="kpi"><span>Ações do projeto</span><b id="kActs">—</b><small>escopo integrado</small></article>
-<article class="kpi"><span>Subações</span><b id="kSubs">—</b><small>itens de execução</small></article>
-<article class="kpi"><span>Ações concluídas</span><b id="kDone">—</b><small>fechadas na base compartilhada</small></article>
-<article class="kpi"><span>Avanço geral</span><b class="green" id="kPct">—</b><small>ações/subações concluídas</small></article>
+<article class="kpi"><span>Subações</span><b id="kSubs">—</b><small>unidades de execução</small></article>
+<article class="kpi"><span>Fechamento 1º ciclo</span><b id="kDone">—</b><small>depende da primeira parada de todas as máquinas</small></article>
+<article class="kpi"><span>Avanço operacional</span><b class="green" id="kPct">—</b><small>ações/subações de Kleber, Leonardo e Ligriarno/Ralde</small></article>
 </section>
-<section class="global"><article class="panel"><div class="ph"><h2>Curva S geral — execução integrada</h2><small>avanço por unidades de execução</small></div><div id="globalChart"></div></article>
-<article class="panel"><div class="ph"><h2>Avanço por frente</h2><small>concluídas / total</small></div><div class="summary" id="summary"></div></article></section>
+<section class="global"><article class="panel"><div class="ph"><h2>Curva S geral — programação × execução do 1º ciclo</h2><small>somente frotas pertencentes ao projeto</small></div><div id="globalChart"></div></article>
+<article class="panel"><div class="ph"><h2>Avanço e fechamento por frente</h2><small>concluídas / total</small></div><div class="summary" id="summary"></div></article></section>
 <section class="groups" id="groups"></section></main>
-<div class="footnote">Atualização automática conforme as baixas registradas nos apps da equipe.</div></section>
+<div class="footnote">Execução atualizada automaticamente conforme as baixas registradas nos apps da equipe.</div></section>
 <div id="details"></div>
-<script src="app.js"></script>
+<script src="app.js?v=7"></script>
 </body></html>
