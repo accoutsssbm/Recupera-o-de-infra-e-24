@@ -1,8 +1,9 @@
-const CACHE_NAME='gestao-24-v4';
+const CACHE_NAME='gestao-24-v5';
 const ASSETS=[
   './Visao_Gerencial_Freios_24_24M_V6.html',
-  './manifest.webmanifest?v=25',
+  './manifest.webmanifest?v=26',
   './icon.svg?v=25',
+  './live-cycle.js?v=7',
   './freios-parts/freios-gz-001.b64',
   './freios-parts/freios-gz-002.b64',
   './freios-parts/freios-gz-003.b64',
