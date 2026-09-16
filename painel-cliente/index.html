@@ -9,6 +9,12 @@
 <link rel="apple-touch-icon" href="../cliente/icon.svg">
 <title>Hotsheet | Recuperação da Frota — Salobo</title>
 <link rel="stylesheet" href="style.css?v=8">
+<style>
+.chart,.miniChart{width:100%;height:auto!important;display:block;overflow:visible}
+.chart{aspect-ratio:960/220;min-height:165px}
+.miniChart{aspect-ratio:420/132;min-height:100px;margin-top:4px}
+@media(max-width:900px){.chart{min-height:145px}.miniChart{min-height:96px}}
+</style>
 </head><body>
 <section id="home" class="screen tv active">
 <header class="top"><div><div class="brand">SOTREQ</div><div class="eye">ENGENHARIA | RECUPERAÇÃO DE FROTA</div><h1>Hotsheet do Projeto — Infraestrutura Salobo</h1>
@@ -27,8 +33,8 @@
 <section class="groups" id="groups"></section></main>
 <div class="footnote">Execução atualizada automaticamente conforme as baixas registradas nos apps da equipe.</div></section>
 <div id="details"></div>
-<script src="app.js?v=8"></script>
-<script src="chart-fix.js?v=1"></script>
+<script src="app.js?v=9"></script>
+<script src="chart-fix.js?v=2"></script>
 <script>
 if('serviceWorker' in navigator){
   let reloading=false;
