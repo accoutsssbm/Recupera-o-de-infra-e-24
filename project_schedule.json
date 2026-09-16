@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "updated_at": "2026-09-16",
+  "source": "Projeção de planos Outubro26.xlsx",
+  "chart_start": "2026-09-16",
+  "chart_end": "2026-11-10",
+  "groups": {
+    "Ligriarno": {
+      "label": "Ligriarno / Ralde",
+      "machines": [
+        {"tag":"MA81","week":41,"stop_date":"2026-10-11","date_quality":"ESTIMADA_FIM_SEMANA","source_note":"Semana 41 informada; Data planejada não preenchida."},
+        {"tag":"MA82","week":43,"stop_date":"2026-10-25","date_quality":"ESTIMADA_FIM_SEMANA","source_note":"Semana 43 informada; Data planejada não preenchida."},
+        {"tag":"MA83","week":41,"stop_date":"2026-10-11","date_quality":"DATA_PLANEJADA","source_note":"PM 250 h."},
+        {"tag":"MA84","week":41,"stop_date":"2026-10-09","date_quality":"DATA_PLANEJADA","source_note":"PM 6000 h."},
+        {"tag":"MA85","week":45,"stop_date":"2026-11-06","date_quality":"DATA_PLANEJADA","source_note":"PM 250 h."}
+      ],
+      "cycle_close":"2026-11-06",
+      "pending":[]
+    },
+    "Leonardo": {
+      "label": "Leonardo",
+      "machines": [
+        {"tag":"TT84","week":40,"stop_date":"2026-10-01","date_quality":"DATA_PLANEJADA","source_note":"Primeira parada do ciclo: PM 250 h."},
+        {"tag":"TT83","week":41,"stop_date":"2026-10-10","date_quality":"DATA_PLANEJADA","source_note":"Primeira parada do ciclo: PM 250 h."},
+        {"tag":"TT82","week":43,"stop_date":"2026-10-20","date_quality":"DATA_PLANEJADA","source_note":"PM 250 h."}
+      ],
+      "cycle_close":"2026-10-20",
+      "pending":[]
+    },
+    "Kleber": {
+      "label": "Kleber",
+      "machines": [
+        {"tag":"TT57","week":41,"stop_date":"2026-10-06","date_quality":"DATA_PLANEJADA","source_note":"Primeira parada do ciclo: PM 250 h."},
+        {"tag":"TT56","week":42,"stop_date":"2026-10-16","date_quality":"DATA_PLANEJADA","source_note":"Primeira parada do ciclo: PM 250 h."},
+        {"tag":"TT55","week":44,"stop_date":"2026-10-26","date_quality":"DATA_PLANEJADA","source_note":"PM 250 h."},
+        {"tag":"TT85","week":null,"stop_date":null,"date_quality":"SEM_PROJECAO","source_note":"Não localizado na projeção de planos fornecida."}
+      ],
+      "cycle_close":null,
+      "pending":["TT85"]
+    }
+  },
+  "overall": {
+    "cycle_close":null,
+    "known_last_stop":"2026-11-06",
+    "pending":["TT85"],
+    "rule":"O primeiro ciclo fecha quando todas as máquinas do escopo tiverem alcançado a primeira janela de parada programada e as unidades de execução previstas para essa janela estiverem tratadas."
+  },
+  "scope": {
+    "included":["MA81","MA82","MA83","MA84","MA85","TT82","TT83","TT84","TT55","TT56","TT57","TT85"],
+    "excluded_note":"Ativos presentes na projeção que não pertencem ao projeto foram desconsiderados."
+  }
+}
