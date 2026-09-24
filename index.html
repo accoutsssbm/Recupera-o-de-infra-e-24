@@ -17,11 +17,11 @@
  const html=await new Response(stream).text();
  document.open();document.write(html);document.close();
  const live=document.createElement('script');
- live.src='live-v7.js?v=20260916d';
+ live.src='live-v7.js?v=20260924a';
  live.async=false;
  live.onload=()=>{
    const axis=document.createElement('script');
-   axis.src='axis-bottom-v8.js?v=20260916a';
+   axis.src='axis-bottom-v8.js?v=20260924a';
    axis.async=false;
    document.body.appendChild(axis);
  };
