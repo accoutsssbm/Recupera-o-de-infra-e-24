@@ -33,5 +33,42 @@
    a.style.cssText='display:inline-flex;align-items:center;background:#ffcd11;color:#171717;font-weight:800;text-decoration:none';
    nav.prepend(a);
  }
+ // Organiza Macro + responsáveis em blocos verticais para preservar a leitura das curvas e medições.
+ const layoutStyle=document.createElement('style');
+ layoutStyle.textContent=`
+   .engineer-stack-vertical{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:18px!important;align-items:start!important;width:100%!important;max-width:none!important}
+   .engineer-stack-vertical>.engineer-stack-card{width:100%!important;max-width:none!important;min-width:0!important}
+   .engineer-stack-card svg{max-width:100%!important}
+   .engineer-stack-card [class*="chart"],.engineer-stack-card [class*="Chart"]{width:100%!important;max-width:none!important}
+ `;
+ document.head.appendChild(layoutStyle);
+ const applyVerticalEngineerLayout=()=>{
+   const scope=document.getElementById('home')||document.body;
+   const headings=[...scope.querySelectorAll('h1,h2,h3,h4,strong')];
+   const markers=headings.filter(el=>{
+     const t=(el.textContent||'').toLowerCase();
+     return t.includes('curva s macro')||t.includes('projeto principal - 24/24m')||t.includes('curva s de execução');
+   });
+   if(markers.length<3)return false;
+   const depth=el=>{let d=0;while(el&&el!==document.body){d++;el=el.parentElement}return d};
+   let best=null,bestDepth=-1;
+   for(const marker of markers){
+     let p=marker.parentElement;
+     while(p&&p!==document.body){
+       const hitChildren=[...p.children].filter(ch=>markers.some(m=>ch===m||ch.contains(m)));
+       if(hitChildren.length>=3){const d=depth(p);if(d>bestDepth){best=p;bestDepth=d}}
+       p=p.parentElement;
+     }
+   }
+   if(!best)return false;
+   best.classList.add('engineer-stack-vertical');
+   [...best.children].forEach(ch=>{
+     if(markers.some(m=>ch===m||ch.contains(m)))ch.classList.add('engineer-stack-card');
+   });
+   return true;
+ };
+ applyVerticalEngineerLayout();
+ setTimeout(applyVerticalEngineerLayout,300);
+ setTimeout(applyVerticalEngineerLayout,1200);
 })().catch(e=>{document.getElementById('status').textContent='Não foi possível carregar o painel.';document.getElementById('err').textContent=e.message;});
 </script></body></html>
