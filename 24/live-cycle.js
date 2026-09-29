@@ -89,7 +89,7 @@ async function saveBrakePositionStatus(select){
  if(sync)sync.textContent='Salvando '+tag+' '+position+'…';
  try{
   const url=STATUS_API+'?project_key=eq.'+encodeURIComponent(PROJ)+'&machine_tag=eq.'+encodeURIComponent(tag)+'&position_code=eq.'+encodeURIComponent(position);
-  const r=await fetch(url,{method:'PATCH',headers:{...hdr,Prefer:'return=representation'},body:JSON.stringify({status:next,updated_at:new Date().toISOString()})});
+  const r=await fetch(url,{method:'PATCH',headers:{apikey:KEY,'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify({status:next,updated_at:new Date().toISOString()})});
   if(!r.ok)throw Error('HTTP '+r.status);
   const saved=await r.json();
   if(!Array.isArray(saved)||!saved.length)throw Error('Nenhuma linha atualizada; verifique a permissão de gravação.');
