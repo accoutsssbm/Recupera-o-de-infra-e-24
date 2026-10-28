@@ -25,4 +25,4 @@ function render(){const f=front.value,t=tag.value,q=norm(search.value);const fil
 function toggleAction(id,checked,t=''){const a=DATA.actions.find(x=>x.id===id),subs=viewSubs(a,t);if(subs.length)subs.forEach(s=>S.sub[s.id]=checked);else S.action[id]=checked;save();render()};function toggleSub(id,checked){S.sub[id]=checked;save();render()};window.toggleAction=toggleAction;window.toggleSub=toggleSub;
 front.addEventListener('change',()=>{resetTags();render()});tag.addEventListener('change',render);search.addEventListener('input',render);resetTags();render();
 let deferredPrompt;const install=document.getElementById('install');window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;install.style.display='block'});install.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;install.style.display='none'});if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
-</script></body></html>
+</script><script src="../salobo-vps-bridge.js?v=1"></script><script src="sync.js"></script></body></html>
