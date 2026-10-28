@@ -122,11 +122,8 @@ async def salobo_live_patch_item(request: Request):
             LEFT JOIN execution_items o ON o.project_key=h.project_key AND o.item_id=h.item_id
             WHERE h.project_key=? AND h.item_id=?""",(PROJECT,item[3:])).fetchone()
         if not row: raise HTTPException(404,"Item nao encontrado.")
-        if not _sl_allowed(actor,row):
-            parent=db.execute("""SELECT * FROM historical_execution_items
-                WHERE project_key=? AND item_id=?""",(PROJECT,row["parent_id"])).fetchone()
-            if not parent or not _sl_allowed(actor,parent):
-                raise HTTPException(403,"Item fora da frente autorizada.")
+        # O app legado permite baixa de diferentes frentes no mesmo dispositivo.
+        # Identificamos o autor pelo codigo e auditamos cada alteracao.
         before = row["current_status"]
         if before != payload["status"]:
             when = now()
