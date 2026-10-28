@@ -19,6 +19,7 @@
         const response=await realFetch(ROOT+'health',{cache:'no-store',mode:'cors'});
         const data=response.ok?await response.json():null;
         enabled=!!(data&&data.service==='salobo-live'&&data.historical_items===575);
+        window.__SALOBOVPS_ACTIVE__=enabled;
       }catch(_){enabled=false}
       if(!enabled)nextProbe=Date.now()+10000;
       return enabled;
