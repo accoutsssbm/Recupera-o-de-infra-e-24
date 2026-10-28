@@ -1,4 +1,4 @@
-const CACHE='acoes-salobo-v12';const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./sync.js','../salobo-vps-bridge.js?v=1'];
+const CACHE='acoes-salobo-v13';const ASSETS=['./','./index.html','./manifest.webmanifest','./icon.svg','./sync.js','../salobo-vps-bridge.js?v=1'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('acoes-salobo-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()} )()));
 async function inject(r){let t=await r.text();if(!t.includes('salobo-vps-bridge.js'))t=t.replace('</body>','<script src="../salobo-vps-bridge.js?v=1"></script><script src="sync.js"></script></body>');const h=new Headers(r.headers);h.set('content-type','text/html; charset=utf-8');h.delete('content-length');return new Response(t,{status:r.status,statusText:r.statusText,headers:h})}
