@@ -4,6 +4,7 @@ const SUPA_KEY="sb_publishable_QnC0_AuecV4bhv4pzterwQ_W-Fl-ptc";
 const PROJECT="salobo-infra-v6";
 const API=SUPA_URL+'/rest/v1/project_execution_items';
 const PEND='salobo-sync-v2-pending',OLD_PEND='salobo-sync-v1-pending',RESCUE='salobo-sync-v2-rescued';
+const VPS_RESCUE='salobo-vps-cutover-rescue-v1';
 const LEGACY_KEYS=['salobo-cliente-progresso-v2','salobo-projeto-v3','salobo-projeto-v2'];
 let remote=new Map(),busy=false;
 const hdr={apikey:SUPA_KEY,'Content-Type':'application/json'};
@@ -36,7 +37,11 @@ async function pull(initial=false){
   try{
     const rows=await getRemote();
     remote=new Map(rows.map(x=>[x.item_id,x.status]));
-    if(initial)rescueLocalDone(rows);
+    if(window.__SALOBOVPS_ACTIVE__&&localStorage.getItem(VPS_RESCUE)!=='1'){
+      localStorage.removeItem(RESCUE);
+      rescueLocalDone(rows);
+      localStorage.setItem(VPS_RESCUE,'1');
+    }else if(initial)rescueLocalDone(rows);
     await flush();
     const p=pending();
     rows.forEach(row=>{if(p[row.item_id]!==undefined)return;setLocal(row.item_type,row.item_id,(remote.get(row.item_id)||row.status)==='DONE')});
