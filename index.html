@@ -16,6 +16,10 @@
  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
  const html=await new Response(stream).text();
  document.open();document.write(html);document.close();
+ const bridge=document.createElement('script');
+ bridge.src='salobo-vps-bridge.js?v=1';
+ bridge.async=false;
+ await new Promise(resolve=>{bridge.onload=resolve;bridge.onerror=resolve;document.body.appendChild(bridge)});
  const live=document.createElement('script');
  live.src='live-v7.js?v=20260928b';
  live.async=false;
