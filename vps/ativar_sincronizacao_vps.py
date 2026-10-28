@@ -340,11 +340,31 @@ def main():
         raise RuntimeError("FALHA CRITICA: escrita anonima aceita")
     except urllib.error.HTTPError as ex:
         if ex.code!=401:raise RuntimeError("Autenticacao de escrita retornou HTTP "+str(ex.code))
+    codes=dict(line.split(": ",1) for line in CODES.read_text().splitlines() if ": " in line)
+    coord=codes.get("Coordenacao")
+    if not coord: raise RuntimeError("Codigo de Coordenacao nao encontrado")
+    current=next((x["status"] for x in items if x["item_id"]=="M1"),None)
+    if current not in ("OPEN","DONE"): raise RuntimeError("Item de teste M1 invalido")
+    req=urllib.request.Request(
+      "http://127.0.0.1:18086/live/rest/v1/project_execution_items?project_key=eq.salobo-infra-v6&item_id=eq.M1",
+      data=json.dumps({"status":current}).encode(),method="PATCH",
+      headers={"Content-Type":"application/json","X-Project-Token":coord,"Origin":ORIGIN})
+    with urllib.request.urlopen(req,timeout=8) as resp:
+        if resp.status!=200:raise RuntimeError("PATCH autorizado falhou")
+    ssltest=subprocess.run(["curl","--noproxy","*","-fsS",
+      "--resolve","gestao.atlasfieldscreen.com:443:127.0.0.1",
+      "https://gestao.atlasfieldscreen.com/salobo-live/health"],
+      check=True,capture_output=True,text=True,timeout=15)
+    public_health=json.loads(ssltest.stdout)
+    if public_health.get("service")!="salobo-live":
+        raise RuntimeError("HTTPS da nova rota nao esta encaminhando para a API")
     status,body=get("http://127.0.0.1:18086/live/health")
     print("=== ATIVACAO CONCLUIDA ===")
     print("API:",body)
     print("Itens:",len(items),"Freios:",len(brakes))
     print("Escrita anonima bloqueada: HTTP 401")
+    print("Escrita autenticada sem alterar estado: HTTP 200")
+    print("HTTPS da nova rota: validado")
     print("Codigos privados em:",CODES)
     print("Publicacao Nginx:",NGINX)
     print("Checar acesso externo GET: https://gestao.atlasfieldscreen.com/salobo-live/health")
