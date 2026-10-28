@@ -1,0 +1,28 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Resgatar progresso local — Salobo</title><style>body{font:15px system-ui,Arial;margin:0;background:#15191f;color:#f2f5f7}main{max-width:720px;margin:40px auto;padding:22px;background:#202832;border-radius:17px;border:1px solid #3a4654}h1{font-size:24px}button{font:inherit;font-weight:700;padding:14px;border:0;border-radius:9px;background:#ffcc22;color:#161616;cursor:pointer}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:14px;background:#10151b;border-radius:10px}small{color:#bdc8d4}</style></head><body><main><h1>Resgate local — Projeto Salobo</h1><p>Este utilitário consulta apenas os dados locais deste navegador, na origem GitHub Pages do projeto. <strong>Não acessa Supabase, não envia dados a nenhum servidor e não modifica os aplicativos.</strong></p><p>Abra <strong>neste mesmo navegador e dispositivo</strong> utilizado para marcar atividades em <em>Recuperação da Infraestrutura</em>. Exporte uma cópia de cada aparelho dos responsáveis.</p><button type="button" id="export">Exportar dados deste aparelho (JSON)</button><p id="status" role="status"></p><pre id="details"></pre><small>O arquivo contém as marcações locais e filas de sincronização do projeto. Envie-o apenas à coordenação. Não é prova de que o Supabase tenha confirmado a alteração.</small></main><script>
+(()=>{
+'use strict';
+const keys=['salobo-projeto-v3','salobo-projeto-v2','salobo-cliente-progresso-v2','salobo-sync-v2-pending','salobo-sync-v1-pending','salobo-sync-v2-rescued'];
+const box=document.getElementById('details'),status=document.getElementById('status');
+function get(){
+ const storage={};let unreadable=[];
+ for(const key of keys){
+   try {const raw=localStorage.getItem(key);if(raw!==null){try{storage[key]=JSON.parse(raw)}catch(_){storage[key]={raw,parse_error:true}}}}catch(e){unreadable.push(key)}
+ }
+ return {format:'salobo-local-recovery-v1',project:'salobo-infra-v6',captured_at:new Date().toISOString(),origin:location.origin,pathname:location.pathname,storage,unreadable};
+}
+function summary(s){
+ const p=s.storage||{},names=Object.keys(p),n=k=>p[k]&&typeof p[k]==='object'?Object.keys(p[k]).length:0;
+ return 'Chaves encontradas: '+names.length+' de '+keys.length+'\n'+names.map(x=>'• '+x).join('\n')+'\n\nFila pendente V2: '+n('salobo-sync-v2-pending')+' item(ns)\nFila pendente V1: '+n('salobo-sync-v1-pending')+' item(ns)\nSem dados locais? Confirme o mesmo aparelho e navegador do app antigo.';
+}
+document.getElementById('export').addEventListener('click',()=>{
+ let s=get(),str=JSON.stringify(s,null,2);
+ box.textContent=summary(s);
+ if(!Object.keys(s.storage).length){status.textContent='Nenhum dado local encontrado. Verifique o dispositivo/navegador correto.';return;}
+ const blob=new Blob([str],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ const stamp=new Date().toISOString().replace(/[:.]/g,'-');
+ a.href=url;a.download='SALOB0_resgate_local_'+stamp+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);
+ status.textContent='Copia local exportada. Nenhuma informacao foi transmitida.';
+});
+box.textContent=summary(get());
+})();
+</script></body></html>
